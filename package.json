@@ -2,9 +2,10 @@
     "name": "timer",
     "version": "0.0.0",
     "scripts": {
+        "404": "copy docs\\index.html docs\\404.html",
         "ng": "ng",
         "start": "ng serve",
-        "build": "ng build --base-href  https://falconii.github.io/timer/",
+        "build": "ng build --base-href https://SimionatoDev.github.io/frontend_time/ && copy docs\\index.html docs\\404.html",
         "watch": "ng build --watch --configuration development",
         "test": "ng test"
     },
