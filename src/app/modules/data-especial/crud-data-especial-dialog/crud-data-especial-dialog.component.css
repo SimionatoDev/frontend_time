@@ -1,0 +1,107 @@
+.class-form {
+  font-size: 12px;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: grey;
+  height: 30px;
+  border-collapse: separate; /* Permite usar border-spacing */
+  border-spacing: 1 1;
+  padding: 4px;
+}
+
+.content-scroll {
+  height: 400px; /*calc(100% - 50px);*/
+  overflow: auto;
+}
+
+.Browse-Scroll {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate; /* Permite usar border-spacing */
+  border-spacing: 1 1;
+  padding: 4px;
+}
+
+.Browse-Scroll th, .Browse-Scroll td {
+  text-align: left;
+  box-sizing: border-box; /* Evita "overflow" causado por padding */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Browse-Scroll th:nth-child(1), .Browse-Scroll td:nth-child(1) {
+  width: 10%; /* Data */
+}
+
+.Browse-Scroll th:nth-child(2), .Browse-Scroll td:nth-child(2) {
+  width: 20%; /* Usuário */
+}
+
+.Browse-Scroll th:nth-child(3), .Browse-Scroll td:nth-child(3) {
+  width: 60%; /* Grupo */
+}
+
+.Browse-Scroll th:nth-child(4), .Browse-Scroll td:nth-child(4) {
+  width: 10%; /* Atividade */
+}
+
+
+td {
+  font-size: small;
+  color: blue;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2AA;
+}
+
+tr:hover {
+  background-color: rgb(202, 169, 157);
+}
+
+
+.Browse-Scroll, .Browse-Scroll th, .Browse-Scroll td {
+  box-sizing: border-box;
+}
+
+.Browse-Scroll thead tr {
+  display: table;
+  color: black;
+  width: 100%;
+}
+
+.Browse-Scroll tbody {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+
+.cb-box-area {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.cb-box-marg {
+  margin: 0 10px;
+}
+
+
+ckeck {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.check-margem {
+  margin: 0 10px;
+}

@@ -159,8 +159,8 @@ https://www.thecodehubs.com/how-to-use-material-input-date-in-angular-app/
                     </div>
                 </div>
             </mat-tab>
-            <mat-tab>
-                <ng-template mat-tab-label *ngIf="isDirAdm()">
+            <mat-tab *ngIf="isLiberado()">
+                <ng-template mat-tab-label >
                     <mat-icon class="example-tab-icon blue-icon"> attach_money</mat-icon>
                     Administrativo
                 </ng-template>

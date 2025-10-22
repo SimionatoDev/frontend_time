@@ -31,6 +31,7 @@ export class FeriadosService {
   }
 
   getFeriados_01(params: ParametroFeriado01): Observable<FeriadoModel[]> {
+    console.log("Parametros Indo: ",params);
     return this.http.post<FeriadoModel[]>(`${this.apiURL}feriados`, params);
   }
 

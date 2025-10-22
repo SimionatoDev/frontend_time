@@ -1,0 +1,149 @@
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">
+      <mat-label>{{labelCadastro}}</mat-label>
+    </span>
+  </mat-toolbar>
+  </div>
+  <form class="class-form" [formGroup]="formulario" autocomplete="off">
+    <div class="moldura">
+      <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>Controle</mat-label>
+          <input matInput formControlName="id" readonly="true">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>Data Inicial</mat-label>
+          <input matInput formControlName="dt_inicial" mask="00/00/0000" placeholder="DD/MM/AAAA">
+          <mat-error *ngIf="formulario.get('dt_inicial')?.errors?.ValidatorDate && NoValidtouchedOrDirty('dt_inicial')">
+            {{formulario.get('dt_inicial')?.errors?.message}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+          <mat-label>Data Final</mat-label>
+          <input matInput formControlName="dt_final" mask="00/00/0000" placeholder="DD/MM/AAAA" >
+          <button *ngIf="hasValue('dt_inicial')"
+                  matSuffix
+                  mat-icon-button
+                  aria-label="Clear"
+                  (click)="onCopyValue()">
+                  <mat-icon>file_copy</mat-icon>
+          </button>
+          <mat-error *ngIf="formulario.get('dt_final')?.errors?.ValidatorDate && NoValidtouchedOrDirty('dt_final')">
+            {{formulario.get('dt_final')?.errors?.message}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-med-2">
+        <mat-form-field field appearance="outline" class="col-max">
+          <mat-label>Grupos</mat-label>
+          <mat-select formControlName="id_grupo" (selectionChange)="onChangeGrupo()">
+            <mat-option *ngFor="let grupo of grupos" [value]="grupo.subconta.substring(0,4)">
+              {{grupo.estru_descri}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formulario.get('id_grupo')?.errors?.ValidatorStringLen && NoValidtouchedOrDirty('id_grupo')">
+             Favor Informar O Grupo
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="col-max">
+          <mat-label>Atividades</mat-label>
+          <mat-select formControlName="id_atividade">
+            <mat-option *ngFor="let atividade of atividadesDoGrupo" [value]="atividade.subconta.trim()">
+              {{atividade.estru_descri}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formulario.get('id_atividade')?.errors?.ValidatorStringLen && NoValidtouchedOrDirty('id_atividade')">
+            Favor Informar A Atividade
+         </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-med-1">
+        <div class="check">
+          <mat-checkbox class="check-margem" formControlName="allday"    (change)="onAllDay($event)">Dia Todo</mat-checkbox>
+        </div>
+      </div>
+    <div class="col-med-2">
+      <mat-form-field appearance="outline" class="col-max">
+        <mat-label>Entrada</mat-label>
+        <input matInput formControlName="entrada" placeholder="HH:MM" mask="00:00" [readonly]="data.especial.allday">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-max">
+        <mat-label>Saída</mat-label>
+        <input matInput formControlName="saida" placeholder="HH:MM" mask="00:00" [readonly]="data.especial.allday">
+      </mat-form-field>
+    </div>
+    <div class="col-med-1">
+      <mat-form-field appearance="outline" class="col-max">
+        <mat-label>Descrição</mat-label>
+        <input matInput formControlName="descricao" oninput="this.value = this.value.toUpperCase()"
+          [readonly]="readOnly">
+        <mat-error *ngIf="formulario.get('descricao')?.errors?.ValidatorStringLen && NoValidtouchedOrDirty('descricao')">
+          {{formulario.get('descricao')?.errors?.message}}</mat-error>
+      </mat-form-field>
+    </div>
+    </div>
+    <table class="Browse-Scroll">
+        <thead>
+          <tr>
+            <th  class="Browse_Lanc_td" (dblclick) ="inverteSelecao()">Escolha</th>
+            <th  class="Browse_Lanc_td">Código</th>
+            <th  class="Browse_Lanc_td">Nome</th>
+            <th  class="Browse_Lanc_td">Ações</th>
+          </tr>
+        </thead>
+    </table>
+    <table class="Browse-Scroll">
+        <tbody>
+          <tr *ngFor="let selecao of usuarios ; let i = index">
+
+            <td>
+              <div>
+                <section class="cb-box-area">
+                  <mat-checkbox class="cb-box-marg" [checked] = "selecao.flag" [disabled] = "selecao.usuario.especiais > 0" (change)="onChangeIncluir($event,i)">Incluir</mat-checkbox>
+                </section>
+              </div>
+            </td>
+            <td>
+              <div class="ellipsis" matTooltip="{{selecao.usuario.id}}">
+                <mat-label class="Browse_Lanc_td">{{selecao.usuario.id}}</mat-label>
+              </div>
+            </td>
+            <td>
+              <div class="ellipsis" matTooltip="{{selecao.usuario.razao}}">
+                <mat-label class="Browse_Lanc_td">{{selecao.usuario.razao}}</mat-label>
+              </div>
+            </td>
+            <td>
+              <barra-acoes [CONSULTAR]="selecao.usuario.especiais > 0" [BARRA_ATIVIDADES]="false" [ALTERAR] = "false" [EXCLUIR]="false" (changeOpcao)="escolha($event, selecao)">
+              </barra-acoes>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    <div class="button-container-right">
+      <button mat-raised-button color="primary" (click)="UsersFunction()" *ngIf="!okUsuarios()">
+        <mat-icon>supervisor_account</mat-icon>
+        Usuários
+      </button>
+      <button mat-raised-button color="primary" (click)="actionFunction()" *ngIf="okUsuarios()">
+        <mat-icon>check</mat-icon>
+        Gravar
+      </button>
+      <button mat-raised-button color="accent" (click)="closeModal()">
+        <mat-icon>cancel</mat-icon>
+        {{getLabelCancel()}}
+      </button>
+    </div>
+  </form>
+
+
+
+  <tbody>
+    <tr *ngFor="let selecao of usuarios">
+      <td>
+        <div>
+            <p *ngIf="selecao.flag">{{selecao.usuario.razao}}</p>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+

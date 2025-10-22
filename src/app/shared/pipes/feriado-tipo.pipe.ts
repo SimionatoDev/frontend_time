@@ -12,19 +12,10 @@ export class FeriadoTipoPipe implements PipeTransform {
         retorno = 'FERIADO';
         break;
       case 2:
-        retorno = 'PONTE';
-        break;
-      case 3:
-        retorno = 'FERIAS';
-        break;
-      case 4:
-        retorno = 'AFASTAMENTO';
-        break;
-      case 5:
-        retorno = 'LICENÇA MATERNIDADE';
+        retorno = 'ESPECIAL';
         break;
       default:
-        retorno = 'FERIADO';
+        retorno = 'ESPECIAL';
         break;
     }
     return retorno;

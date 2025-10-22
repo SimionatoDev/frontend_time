@@ -3,7 +3,7 @@
     <span class="example-spacer">Datas Especiais: </span>
     <app-navegator [controle]="controlePaginas" (changePage)="onChangePage()"></app-navegator>
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
-      (click)="getFeriadosContador()" matTooltip="Atualizar" matTooltipPosition="above">
+      (click)="getDataEspecialContador()" matTooltip="Atualizar" matTooltipPosition="above">
       <mat-icon>rotate_right</mat-icon>
     </button>
     <button mat-icon-button aria-label="Example icon-button with share icon " matTooltipPosition="above"
@@ -20,69 +20,56 @@
     </button>
   </mat-toolbar>
 </div>
-<div class="parametros">
-  <form [formGroup]="parametros" autocomplete="off" class="col-med-4">
-    <mat-form-field field appearance="outline" class="col-max">
-      <mat-label>Ordenação</mat-label>
-      <mat-select formControlName="ordenacao" (selectionChange)="onChangeParametros()">
-        <mat-option *ngFor="let op of opcoesOrdenacao" [value]="op">
-          {{op}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field field appearance="outline" class="col-max">
-      <mat-label>Pesquisar Por</mat-label>
-      <mat-select formControlName="campo" (selectionChange)="onChangeParametros()">
-        <mat-option *ngFor="let op of opcoesCampo" [value]="op">
-          {{op}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="col-max column-span-2">
-      <mat-label>Descrição</mat-label>
-      <input matInput formControlName="filtro" oninput="this.value = this.value.toUpperCase()">
-    </mat-form-field>
-  </form>
-</div>
-<cdk-virtual-scroll-viewport [itemSize]="50" class="content">
-  <table class="Browse-Scroll">
-    <tr class="coluna-cabec">
-      <th>Data</th>
-      <th>Usuário</th>
+
+<app-filtro-datas-especiais  PARAMNAME = "paramespeciais" [HIDE]="hide" [EMAIL]="true" [DOWNLOAD]="true" [CONTROLE_PAGINAS]="controlePaginas" (changeParametro)="onChangeParametros($event)" (changeHide)="onChangeHide($event)"></app-filtro-datas-especiais>
+
+<table class="Browse-Scroll">
+  <thead>
+    <tr>
+      <th>Dt Inicial</th>
+      <th>Dt Final</th>
       <th>Grupo</th>
       <th>Atividade</th>
       <th>Descrição</th>
-      <th>AÇÕES</th>
+      <th>Ações</th>
     </tr>
-    <tr *cdkVirtualFor="let feriado of feriados ">
-      <td>
-        <div>
-          <mat-label class="Browse_Lanc_td">{{feriado.data}}</mat-label>
-        </div>
-      </td>
-      <td>
-        <div>
-          <mat-label class="Browse_Lanc_td">{{feriado.id_usuario}}-{{feriado.usu_nome}}</mat-label>
-        </div>
-      </td>
-      <td>
-        <div>
-          <mat-label class="Browse_Lanc_td">{{feriado.subconta_descricao}}</mat-label>
-        </div>
-      </td>
-      <td>
-        <div>
-          <mat-label class="Browse_Lanc_td">{{feriado.atividade_descricao}}</mat-label>
-        </div>
-      </td>
-      <td>
-        <div>
-          <mat-label class="Browse_Lanc_td">{{feriado.descricao}}</mat-label>
-        </div>
-      </td>
-      <td class="acoes">
-        <barra-acoes [BARRA_ATIVIDADES]="false" [EXCLUIR]="false" (changeOpcao)="escolha($event,feriado)"></barra-acoes>
-      </td>
-    </tr>
+  </thead>
+</table>
+
+<cdk-virtual-scroll-viewport [itemSize]="50" class="content-scroll">
+  <table class="Browse-Scroll">
+    <tbody>
+      <tr *cdkVirtualFor="let especial of especiais">
+        <td>
+          <div class="ellipsis" matTooltip="{{especial.dt_inicial}}">
+            <mat-label class="Browse_Lanc_td">{{especial.dt_inicial}}</mat-label>
+          </div>
+        </td>
+        <td>
+          <div class="ellipsis" matTooltip="{{especial.dt_final}}">
+            <mat-label class="Browse_Lanc_td">{{especial.dt_final}}</mat-label>
+          </div>
+        </td>
+        <td>
+          <div class="ellipsis" matTooltip="{{especial.grupo_descricao}}">
+            <mat-label class="Browse_Lanc_td">{{especial.grupo_descricao.trim()}}</mat-label>
+          </div>
+        </td>
+        <td>
+          <div class="ellipsis" matTooltip="{{especial.atividade_descricao}}">
+            <mat-label class="Browse_Lanc_td">{{especial.atividade_descricao.trim()}}</mat-label>
+          </div>
+        </td>
+        <td>
+          <div class="ellipsis" matTooltip="{{especial.descricao}}">
+            <mat-label class="Browse_Lanc_td">{{especial.descricao.trim()}}</mat-label>
+          </div>
+        </td>
+        <td>
+          <barra-acoes [BARRA_ATIVIDADES]="false" [EXCLUIR]="false" (changeOpcao)="escolha($event, especial)">
+          </barra-acoes>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </cdk-virtual-scroll-viewport>

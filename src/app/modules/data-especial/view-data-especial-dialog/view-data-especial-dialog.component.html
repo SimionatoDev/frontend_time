@@ -1,0 +1,39 @@
+<div class="div-barra">
+    <mat-toolbar>
+      <span class="example-spacer">{{labelCadastro}}</span>
+      <app-navegator [controle]="controlePaginas" (changePage)="onChangePage()"></app-navegator>
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+        (click)="getDataEspecialContador()" matTooltip="Atualizar" matTooltipPosition="above">
+        <mat-icon>rotate_right</mat-icon>
+      </button>
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+        (click)="closeModal()">
+        <mat-icon>cancel_presentation</mat-icon>
+      </button>
+    </mat-toolbar>
+  </div>
+ <table class="Browse-Scroll">
+    <thead>
+      <tr>
+        <th  class="Browse_Lanc_td">Data</th>
+        <th  class="Browse_Lanc_td">Descrição</th>
+      </tr>
+    </thead>
+</table>
+<table class="Browse-Scroll">
+    <tbody>
+      <tr *ngFor="let especial of especiais ; let i = index">
+        <td>
+          <div>
+            <mat-label class="Browse_Lanc_td">{{especial.data}}</mat-label>
+          </div>
+        </td>
+        <td>
+          <div class="ellipsis" matTooltip="{{especial.cab_descricao}}">
+            <mat-label class="Browse_Lanc_td">{{especial.cab_descricao}}</mat-label>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+</table>
+

@@ -59,6 +59,10 @@ export class AppComponent {
     return this.globalService.okGerencial();
   }
 
+  okRH(): boolean {
+    return this.globalService.okGerencial();
+  }
+
   getClassMenu(): string {
     if (this.opcao == 'Cadastros') return 'menu-ativo';
     return 'menu-standyby';

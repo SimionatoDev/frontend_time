@@ -1,0 +1,64 @@
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">Envio Das Marcações Do RH-NET</span>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+      (click)="onUpload()" matTooltip="Enviar Arquivo" matTooltipPosition="above">
+      <mat-icon>cloud_upload</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Retorno"
+      matTooltipPosition="above" (click)="onHome()">
+      <mat-icon>home</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+
+<button mat-raised-button color="primary" (click)="fileInput.click()">
+  Escolher Arquivo
+</button>
+<input type="file" #fileInput style="display: none" (change)="onFileSelected($event)">
+<mat-label>{{ selectedFile?.name }}</mat-label>
+<table class="Browse-Scroll">
+    <thead *ngIf="results.length > 0">
+      <tr>
+        <th>Código</th>
+        <th>CPJ/CNPJ</th>
+        <th>Nome</th>
+        <th>O.K.</th>
+        <th>Com Problemas</th>
+      </tr>
+    </thead>
+  </table>
+  <cdk-virtual-scroll-viewport [itemSize]="50" class="content-scroll">
+    <table class="Browse-Scroll">
+      <tbody>
+        <tr *cdkVirtualFor="let resultado of results">
+          <td>
+            <div class="ellipsis">
+              <mat-label class="Browse_Lanc_td">{{resultado.id}}</mat-label>
+            </div>
+          </td>
+          <td>
+            <div class="ellipsis">
+              <mat-label class="Browse_Lanc_td">{{resultado.cpf}}</mat-label>
+            </div>
+          </td>
+          <td>
+            <div class="ellipsis">
+              <mat-label class="Browse_Lanc_td">{{resultado.nome}}</mat-label>
+            </div>
+          </td>
+          <td>
+            <div class="ellipsis">
+              <mat-label class="Browse_Lanc_td">{{resultado.ok}}</mat-label>
+            </div>
+          </td>
+          <td>
+            <div class="ellipsis">
+              <mat-label class="Browse_Lanc_td">{{resultado.bad}}</mat-label>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</cdk-virtual-scroll-viewport>
+

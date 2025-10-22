@@ -1,0 +1,51 @@
+<div class="div-barra">
+  <mat-toolbar>
+    <span class="example-spacer">Comparativo RH-NET x TIMESHEET</span>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon"
+      (click)="getLancamentos()" matTooltip="Atualizar" matTooltipPosition="above">
+      <mat-icon>rotate_right</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Retorno"
+      matTooltipPosition="above" (click)="onHome()">
+      <mat-icon>home</mat-icon>
+    </button>
+  </mat-toolbar>
+</div>
+
+
+<app-filtro-comparativo  PARAMNAME = "paramfiltrocomp" [HIDE]="hide" [EMAIL]="true" [DOWNLOAD]="true"  (changeParametro)="onChangeParametros($event)" (changeHide)="onChangeHide($event)"></app-filtro-comparativo>
+
+
+  <table class="Browse-Scroll">
+    <thead *ngIf="lancamentos.length > 0">
+      <tr>
+        <th>Data</th>
+        <th>Lançamento RH</th>
+        <th>Lançamento TimeSheet</th>
+      </tr>
+    </thead>
+  </table>
+
+  <cdk-virtual-scroll-viewport [itemSize]="50" class="content-scroll">
+    <table class="Browse-Scroll">
+      <tbody>
+        <tr *cdkVirtualFor="let lancamento of lancamentos">
+          <td>
+            <div class="ellipsis">
+              <mat-label class="Browse_Lanc_td">{{lancamento.data | aaaammddtoddmmaaaa_pipe}}</mat-label>
+            </div>
+          </td>
+        <td>
+          <div *ngFor="let apon_rh of lancamento.rh" class="ellipsis">
+            <mat-label class="Browse_Lanc_td">{{apon_rh | lanc_rh}}</mat-label>
+          </div>
+        </td>
+        <td>
+          <div *ngFor="let apon_ts of lancamento.timesheet" class="ellipsis">
+            <mat-label class="Browse_Lanc_td">{{apon_ts | lanc_rh}}</mat-label>
+          </div>
+        </td>
+        </tr>
+      </tbody>
+    </table>
+  </cdk-virtual-scroll-viewport>

@@ -450,7 +450,7 @@ export class ProjetoViewComponent implements OnInit {
     this.openJustficativaPeriodoDialog();
   }
 
-  isDirAdm(): boolean {
-    return this.globalService.okDirAdm();
+  isLiberado(): boolean {
+    return this.usuariosService.TemAcessoValoresContrato(this.globalService.getUsuario().id);
   }
 }

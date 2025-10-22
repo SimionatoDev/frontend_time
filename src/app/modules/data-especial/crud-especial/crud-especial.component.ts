@@ -1,16 +1,20 @@
+import { Data_Especial_CabService } from './../../../services/data_especial_cab.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Data_Especial_CabModel } from 'src/app/models/data_especial_cab-model';
 import { FeriadoModel } from 'src/app/Models/feriado-model';
 import { ParametroModel } from 'src/app/Models/parametro-model';
-import { ParametroFeriado01 } from 'src/app/parametros/parametro-feriado01';
+import { ParametroData_Especial_Cab01 } from 'src/app/parametros/parametro-data_especial_cab01';
 import { ParametroParametro01 } from 'src/app/parametros/parametro-parametro01';
-import { FeriadosService } from 'src/app/services/feriados.service';
 import { GlobalService } from 'src/app/services/global.service';
+import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { ParametrosService } from 'src/app/services/parametros.service';
 import { AppSnackbar } from 'src/app/shared/classes/app-snackbar';
+import { AtualizaParametroDataEspecial_cab01 } from 'src/app/shared/classes/atualiza-parametro-data-especial_cab01';
 import { CadastroAcoes } from 'src/app/shared/classes/cadastro-acoes';
 import { ControlePaginas } from 'src/app/shared/classes/controle-paginas';
 import {
@@ -22,6 +26,8 @@ import {
   messageError,
   aaaammddddmmaaaa,
 } from 'src/app/shared/classes/util';
+import { DataEspecialData } from '../crud-data-especial-dialog/data-especial-data';
+import { CrudDataEspecialDialogComponent } from '../crud-data-especial-dialog/crud-data-especial-dialog.component';
 
 @Component({
   selector: 'app-crud-especial',
@@ -36,7 +42,7 @@ export class CrudEspecialComponent implements OnInit {
   inscricaoApiBrasil!: Subscription;
   inscricaoSaveFeriado!: Subscription;
 
-  feriados: FeriadoModel[] = [];
+  especiais: Data_Especial_CabModel[] = [];
 
   parametros: FormGroup;
 
@@ -54,14 +60,18 @@ export class CrudEspecialComponent implements OnInit {
 
   parametro: ParametroModel = new ParametroModel();
 
+  hide: boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
-    private feriadoService: FeriadosService,
+    private data_Especial_CabService: Data_Especial_CabService,
     private router: Router,
     private route: ActivatedRoute,
     private appSnackBar: AppSnackbar,
     private globalService: GlobalService,
-    private parametrosService: ParametrosService
+    private parametrosService: ParametrosService,
+    private localStorageService:LocalStorageService,
+    private crudDialog: MatDialog,
   ) {
     this.parametros = formBuilder.group({
       ordenacao: [null],
@@ -79,7 +89,7 @@ export class CrudEspecialComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadParametros();
+
   }
 
   ngOnDestroy() {
@@ -90,51 +100,13 @@ export class CrudEspecialComponent implements OnInit {
     this.inscricaoSaveFeriado?.unsubscribe();
   }
 
-  escolha(opcao: number, feriado?: FeriadoModel) {
-    if (typeof feriado !== 'undefined') {
-      let config = this.parametro.getParametro();
-      Object(config).new = false;
-      Object(config).id_retorno = feriado.data.toString();
-      Object(config).page = this.controlePaginas.getPaginalAtual();
-      Object(config).op_ordenacao = this.opcoesOrdenacao.findIndex(
-        (op) => this.parametros.value.ordenacao == op
-      );
-      Object(config).op_pesquisar = this.opcoesCampo.findIndex(
-        (op) => this.parametros.value.campo == op
-      );
-      Object(config).descricao = this.parametros.value.filtro;
-      this.parametro.parametro = JSON.stringify(config);
-      this.globalService.estadoSave(this.parametro);
-      this.router.navigate([
-        '/especiais/especial',
-        feriado.id_empresa,
-        feriado.id_usuario,
-        feriado.id_tipo,
-        feriado.data,
-        opcao,
-      ]);
+  escolha(opcao: number, especial?: Data_Especial_CabModel) {
+    if (typeof especial !== 'undefined') {
+       this.openViewDataEspecialCabDialog(especial,opcao);
     } else {
-      let config = this.parametro.getParametro();
-      Object(config).new = false;
-      Object(config).id_retorno = 0;
-      Object(config).page = this.controlePaginas.getPaginalAtual();
-      Object(config).op_ordenacao = this.opcoesOrdenacao.findIndex(
-        (op) => this.parametros.value.ordenacao == op
-      );
-      Object(config).op_pesquisar = this.opcoesCampo.findIndex(
-        (op) => this.parametros.value.campo == op
-      );
-      Object(config).descricao = this.parametros.value.filtro;
-      this.parametro.parametro = JSON.stringify(config);
-      this.globalService.estadoSave(this.parametro);
-      this.router.navigate([
-        '/especiais/especial',
-        this.globalService.getIdEmpresa,
-        this.globalService.getUsuario().id,
-        0,
-        '',
-        opcao,
-      ]);
+      especial  = new Data_Especial_CabModel();
+      especial.id_empresa = this.globalService.getIdEmpresa();
+      this.openViewDataEspecialCabDialog(especial,opcao);
     }
   }
 
@@ -142,30 +114,13 @@ export class CrudEspecialComponent implements OnInit {
     return CadastroAcoes;
   }
 
-  getFeriados() {
-    let par = new ParametroFeriado01();
+  getDataEspecial() {
 
-    par.id_empresa = 1;
+    let par = new ParametroData_Especial_Cab01();
 
-    par.id_tipo = 2;
+    par = AtualizaParametroDataEspecial_cab01(par,this.parametro.getParametro());
 
-    par.orderby = 'Data';
-
-    if (this.parametros.value.campo == 'Data')
-      par.data = this.parametros.value.filtro;
-
-    if (this.parametros.value.campo == 'Descrição')
-      par.descricao = this.parametros.value.filtro.toUpperCase();
-
-    if (this.parametros.value.campo == 'Ano') {
-      par.ano = this.parametros.value.filtro;
-    }
-
-    if (this.parametros.value.campo == 'Tipo') {
-      par.id_tipo = 0;
-    }
-
-    par.orderby = this.parametros.value.ordenacao;
+    par.id_empresa = this.globalService.getIdEmpresa();
 
     par.contador = 'N';
 
@@ -175,30 +130,15 @@ export class CrudEspecialComponent implements OnInit {
 
     this.globalService.setSpin(true);
 
-    this.inscricaoGetAll = this.feriadoService.getFeriados_01(par).subscribe(
-      (data: FeriadoModel[]) => {
+    this.inscricaoGetAll = this.data_Especial_CabService.getDatas_Especiais_CabParametro_01(par)
+      .subscribe(
+      (data: Data_Especial_CabModel[]) => {
         this.globalService.setSpin(false);
-        this.feriados = data;
-        console.log(this.feriados);
-        const idx = this.feriados.findIndex(
-          (fer) =>
-            fer.data ==
-            GetValueJsonString(this.parametro.getParametro(), 'id_retorno')
-        );
-        setTimeout(() => this.viewPort.scrollToIndex(idx), 10);
-        this.retorno = false;
-        let config = this.parametro.getParametro();
-        Object(config).id_retorno = 0;
-        Object(config).new = false;
-        this.parametro.parametro = JSON.stringify(config);
+        this.especiais = data;
       },
       (error: any) => {
-        let config = this.parametro.getParametro();
-        Object(config).id_retorno = 0;
-        Object(config).new = false;
-        this.retorno = false;
         this.globalService.setSpin(false);
-        this.feriados = [];
+        this.especiais = [];
         this.appSnackBar.openFailureSnackBar(
           `Pesquisa Nos Feriados ${messageError(error)}`,
           'OK'
@@ -207,61 +147,42 @@ export class CrudEspecialComponent implements OnInit {
     );
   }
 
-  getFeriadosContador() {
-    let par = new ParametroFeriado01();
+  getDataEspecialContador() {
 
-    par.id_empresa = 1;
+    let par = new ParametroData_Especial_Cab01();
 
-    par.id_tipo = 2;
+    par = AtualizaParametroDataEspecial_cab01(par,this.parametro.getParametro());
 
-    par.orderby = 'Data';
+    par.id_empresa = this.globalService.getIdEmpresa();
 
-    if (this.parametros.value.campo == 'Data')
-      par.data = this.parametros.value.filtro;
+    par.contador = 'S';
 
-    if (this.parametros.value.campo == 'Descrição')
-      par.descricao = this.parametros.value.filtro.toUpperCase();
+    par.tamPagina = this.tamPagina;
 
-    if (this.parametros.value.campo == 'Ano') {
-      par.ano = this.parametros.value.filtro;
-    }
+    par.pagina = this.controlePaginas.getPaginalAtual();
 
-    if (this.parametros.value.campo == 'Tipo') {
-      par.id_tipo = 0;
-    }
-
-    par.ano = this.parametros.value.filtro;
-
-    par.orderby = this.parametros.value.ordenacao;
+    this.globalService.setSpin(true);
 
     par.contador = 'S';
 
     par.tamPagina = this.tamPagina;
 
     this.globalService.setSpin(true);
-    this.inscricaoGetAll = this.feriadoService.getFeriados_01(par).subscribe(
+    this.inscricaoGetAll = this.data_Especial_CabService.getDatas_Especiais_CabParametro_01(par)
+     .subscribe(
       (data: any) => {
         this.globalService.setSpin(false);
         this.controlePaginas = new ControlePaginas(
           this.tamPagina,
           data.total == 0 ? 1 : data.total
         );
-        //atualiza com o parametro
-        if (this.retorno)
-          if (!GetValueJsonBoolean(this.parametro.getParametro(), 'new')) {
-            let config = this.parametro.getParametro();
-            this.controlePaginas.setPaginaAtual(Object(config)['page']);
-          } else {
-            //'É inclusao ',
-            this.controlePaginas.goLast();
-          }
-        this.getFeriados();
+        this.getDataEspecial();
       },
       (error: any) => {
         this.globalService.setSpin(false);
         this.controlePaginas = new ControlePaginas(this.tamPagina, 0);
         this.appSnackBar.openFailureSnackBar(
-          `Pesquisa Nos Feriados ${messageError(error)}`,
+          `Pesquisa Datas Especiais ${messageError(error)}`,
           'OK'
         );
       }
@@ -298,12 +219,12 @@ export class CrudEspecialComponent implements OnInit {
             'pesquisar'
           );
           this.setValues();
-          this.getFeriadosContador();
+          this.getDataEspecialContador()
         },
         (error: any) => {
           this.globalService.setSpin(false);
           this.setValues();
-          this.getFeriadosContador();
+          this.getDataEspecialContador();
         }
       );
   }
@@ -359,11 +280,28 @@ export class CrudEspecialComponent implements OnInit {
   }
 
   onChangePage() {
-    this.getFeriados();
+    this.getDataEspecial();
   }
 
-  onChangeParametros() {
-    this.getFeriadosContador();
+
+  onChangeParametros(param:ParametroModel) {
+    console.log("change chamdo",param);
+    this.parametro = param;
+    let page:number = 1;
+    var pag = this.localStorageService.getNumber("page");
+    console.log("page:",pag);
+    if (pag != null) {
+       page =  pag;
+    }
+    this.controlePaginas.setPaginaAtual(page);
+    this.localStorageService.removeItem("page");
+    this.getDataEspecialContador();
+  }
+
+
+
+  onChangeHide(hide:boolean){
+    this.hide = hide;
   }
 
   onHome() {
@@ -374,66 +312,25 @@ export class CrudEspecialComponent implements OnInit {
     this.updateParametros();
   }
 
-  /* rotinas dos parametros */
 
-  loadParametros() {
-    this.parametro = new ParametroModel();
-    this.parametro.id_empresa = this.globalService.getIdEmpresa();
-    this.parametro.modulo = 'especial';
-    this.parametro.assinatura = 'V1.00 21/03/2024';
-    this.parametro.id_usuario = this.globalService.usuario.id;
-    this.parametro.parametro = `
-      {
-        "op_ordenacao": 0,
-        "ordenacao": ["Data", "Descrição"],
-        "op_pesquisar": 1,
-        "pesquisar": ["Data", "Descrição", "Ano" , "Tipo"],
-        "descricao": "",
-        "page": 1,
-        "new": false,
-        "id_retorno":""
-      }`;
+  openViewDataEspecialCabDialog(dataEspecial: Data_Especial_CabModel,opcao : CadastroAcoes): void {
+    const data: DataEspecialData = new DataEspecialData();
+    data.opcao  = opcao;
+    const dialogConfig = new MatDialogConfig();
 
-    this.opcoesOrdenacao = GetValueJsonStringArray(
-      this.parametro.getParametro(),
-      'ordenacao'
-    );
-    this.opcoesCampo = GetValueJsonStringArray(
-      this.parametro.getParametro(),
-      'pesquisar'
-    );
-    if (this.retorno && this.globalService.estadoFind('feriado') !== null) {
-      const par = this.globalService.estadoFind('feriado');
-      if (par != null) {
-        if (GetValueJsonBoolean(par.getParametro(), 'new')) {
-          let config = this.parametro.getParametro();
-          Object(config).id_retorno = GetValueJsonNumber(
-            par.getParametro(),
-            'id_retorno'
-          );
-          this.parametro.parametro = JSON.stringify(config);
-          this.setPosicaoInclusao();
-        } else {
-          this.controlePaginas.setPaginaAtual(
-            GetValueJsonNumber(par.getParametro(), 'page')
-          );
-          this.parametro.setParametro(par.getParametro());
-        }
-        this.globalService.estadoDelete(par);
-      }
-      this.setValues();
-      this.getFeriadosContador();
-    } else {
-      this.getParametro();
-    }
-  }
+    dialogConfig.disableClose = true;
+    dialogConfig.id     = 'consulta-email';
+    dialogConfig.width  = '100%';
+    dialogConfig.height = '100%';
+    dialogConfig.data = data;
+    dialogConfig.disableClose = true;
+    const modalDialog = this.crudDialog.open(
+      CrudDataEspecialDialogComponent,
+      dialogConfig
+    )
+      .beforeClosed()
+      .subscribe((data: DataEspecialData) => {
+      });
+   }
 
-  setPosicaoInclusao() {
-    const config = this.parametro.getParametro();
-    Object(config).op_ordenacao = 0;
-    Object(config).op_pesquisar = 0;
-    Object(config).descricao = '';
-    Object(config).new = true;
-    this.parametro.setParametro(config);
-  }
 }

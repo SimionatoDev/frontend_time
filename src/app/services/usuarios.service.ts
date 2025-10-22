@@ -145,4 +145,11 @@ export class UsuariosService {
 
     return false;
   }
+
+  TemAcessoValoresContrato(codigo:number):boolean{
+    if (codigo == 77 || codigo == 1 || codigo == 9 || codigo == 14 || codigo == 15 || codigo == 16  ) return true;
+
+    return false;
+
+  }
 }

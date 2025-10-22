@@ -18,6 +18,7 @@ export class AppSnackbar {
 
   openFailureSnackBar(message: string, action: string) {
     this.matSnackBar.open(message, action, {
+      duration: 3000,
       panelClass: ['red-snackbar'],
     });
   }

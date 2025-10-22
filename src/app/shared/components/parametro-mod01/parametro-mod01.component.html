@@ -1,0 +1,41 @@
+<div class="div-barra">
+  <span class="example-spacer">Filtro Da Pesquisa</span>
+  <button mat-icon-button aria-label="Example icon-button with share icon " matTooltipPosition="above"
+    (click)="onSaveConfig()" matTooltip="Salvar Parâmetros" matTooltipPosition="above">
+    <mat-icon>brightness_high</mat-icon>
+  </button>
+  <button mat-icon-button aria-label="Example icon-button with share icon " matTooltipPosition="above"
+  (click)="onHide()" matTooltip="Mostrar/Esconder" matTooltipPosition="above">
+  <mat-icon>remove_red_eye</mat-icon>
+ </button>
+</div>
+<form [formGroup]="parametros" autocomplete="off" *ngIf="!hide">
+  <div class="check">
+    <mat-checkbox class="check-margem" formControlName="hoje"    (change)="onHoje($event)"  >Hoje</mat-checkbox>
+    <mat-checkbox class="check-margem" formControlName="cleardate" (change)="onLimpar($event)">Limpar As Datas</mat-checkbox>
+  </div>
+  <div class="col-med-2">
+    <mat-form-field appearance="outline" class="col-max">
+      <mat-label>Data Inicial</mat-label>
+      <input matInput formControlName="dtinicial" mask="00/00/0000" placeholder="dd/mm/aaaa">
+      <mat-error *ngIf="NoValidtouchedOrDirty('dtinicial')">{{getMensafield('dtinicial')}}</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="col-max">
+    <mat-label>Data Final</mat-label>
+    <input matInput formControlName="dtfinal" mask="00/00/0000" placeholder="dd/mm/aaaa">
+    <mat-error *ngIf="NoValidtouchedOrDirty('dtfinal')">{{getMensafield('dtfinal')}}</mat-error>
+  </mat-form-field>
+  </div>
+  <div class="col-med-1">
+    <mat-form-field field appearance="outline" class="col-max">
+      <mat-label>Contrato</mat-label>
+      <input class="uppercase" matInput  formControlName="contrato" [readonly]="true">
+      <button *ngIf="hasValue('contrato')" matSuffix mat-icon-button aria-label="Clear" (click)="clearValue('contrato')">
+        <mat-icon>close</mat-icon>
+      </button>
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="onPesquisaContrato()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+</form>

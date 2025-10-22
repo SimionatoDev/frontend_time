@@ -17,7 +17,7 @@ export class FeriadoNivelPipe implements PipeTransform {
         retorno = 'ESTADUAL';
         break;
       default:
-        retorno = 'NACIONAL';
+        retorno = 'CUSTOMIZADO';
         break;
     }
     return retorno;

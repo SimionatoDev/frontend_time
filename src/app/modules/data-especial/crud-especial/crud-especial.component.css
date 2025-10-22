@@ -1,35 +1,82 @@
-.content {
-    height: 60%;
-    overflow: auto;
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+}
+
+.content-scroll {
+  height: calc(100% - 50px);
+  overflow: auto;
 }
 
 .Browse-Scroll {
-    border-collapse: collapse;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    height: inherit;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate; /* Permite usar border-spacing */
+  border-spacing: 0 0;
+}
+
+.Browse-Scroll th, .Browse-Scroll td {
+  text-align: left;
+  box-sizing: border-box; /* Evita "overflow" causado por padding */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Browse-Scroll th:nth-child(1), .Browse-Scroll td:nth-child(1) {
+  width: 10%; /* Data */
+}
+
+.Browse-Scroll th:nth-child(2), .Browse-Scroll td:nth-child(2) {
+  width: 10%; /* Usuário */
+}
+
+.Browse-Scroll th:nth-child(3), .Browse-Scroll td:nth-child(3) {
+  width: 10%; /* Grupo */
+}
+
+.Browse-Scroll th:nth-child(4), .Browse-Scroll td:nth-child(4) {
+  width: 25%; /* Atividade */
+}
+
+.Browse-Scroll th:nth-child(5), .Browse-Scroll td:nth-child(5) {
+  width: 35%; /* Descrição */
+}
+
+.Browse-Scroll th:nth-child(6), .Browse-Scroll td:nth-child(6) {
+  width: 10%; /* Ações */
 }
 
 td {
-    font-size: small;
-    color: blue;
-    font-family: 'Times New Roman', Times, serif;
+  font-size: small;
+  color: blue;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 tr:nth-child(even) {
-    background-color: #f2f2AA;
+  background-color: #f2f2AA;
 }
 
 tr:hover {
-    background-color: rgb(202, 169, 157);
+  background-color: rgb(202, 169, 157);
 }
 
-.acoes {
-    color: darkred;
-    width: 100px;
+
+.Browse-Scroll, .Browse-Scroll th, .Browse-Scroll td {
+  box-sizing: border-box;
 }
 
-.go-up {
-    margin-top: -10px;
+.Browse-Scroll thead tr {
+  display: table;
+  color: black;
+  background-color: red;
+  width: 100%;
+}
+
+.Browse-Scroll tbody {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }

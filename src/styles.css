@@ -161,6 +161,10 @@ body {
     width: 100%;
 }
 
+.col-90 {
+  width: 90%;
+}
+
 .col-70 {
     width: 70%;
 }
@@ -257,8 +261,9 @@ body {
 
 .coluna-cabec {
     background-color: #E3BD11;
-    font-size: large;
-    text-align: left;
+    font-size: medium;
+     color: black;
+    font-family: 'Times New Roman', Times, serif;
     height: max-content;
 }
 
@@ -522,3 +527,22 @@ body {
     height: inherit;
     padding: 4px;
 }
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+
+.maozinha {
+  cursor:pointer;
+}
+
+
+.ellipsis {
+  white-space: nowrap;       /* Garante que o texto fique em uma linha */
+  overflow: hidden;          /* Oculta o texto que ultrapassar o limite */
+  text-overflow: ellipsis;   /* Adiciona as reticências */
+  max-width: 100%;          /* Define a largura máxima do elemento */
+}
+
+

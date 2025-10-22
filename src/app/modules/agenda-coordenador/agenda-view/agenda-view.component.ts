@@ -36,7 +36,7 @@ export class AgendaViewComponent implements OnInit {
 
   calendario: CelulaDia[] = [];
   linhas: CalendarLine[] = [];
-  anos: number[] = [2022, 2023, 2024];
+  anos: number[] = [2022, 2023, 2024,2025,2026,2027];
   meses: ListaMeses = new ListaMeses();
   hoje: Date = new Date();
   showLancamento: boolean = false;

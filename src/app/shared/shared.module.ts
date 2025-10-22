@@ -44,6 +44,16 @@ import { NgxMaskModule } from 'ngx-mask';
 import { CadastroAcoesPipe } from './pipes/cadastro-acoes.pipe';
 import { CorUltimosProjetosDirective } from './diretivas/cor-ultimos-projetos.directive';
 import { SaldoComponent } from './components/saldo/saldo.component';
+import { ParametroMod01Component } from './components/parametro-mod01/parametro-mod01.component';
+import { SeachDialogComponent } from './components/seach-dialog/seach-dialog.component';
+import { SeachDialogProjetoComponent } from './components/seach-dialog-projeto/seach-dialog-projeto.component';
+import { FiltroDatasEspeciaisComponent } from './components/filtro-datas-especiais/filtro-datas-especiais.component';
+import { DownloadDialogComponent } from './components/download-dialog/download-dialog.component';
+import { EmailDialogComponent } from './components/email-dialog/email-dialog.component';
+import { UsuarioFormatadoPipe } from './pipes/usuario-formatado.pipe';
+import { LancRhPipe } from './pipes/lanc-rh.pipe';
+import { AaaammddtoddmmaaaaPipe } from './pipes/aaaammddtoddmmaaaa.pipe';
+import { FiltroComparativoComponent } from './components/filtro-comparativo/filtro-comparativo.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +80,9 @@ import { SaldoComponent } from './components/saldo/saldo.component';
     FeriadoNivelPipe,
     FeriadoTipoPipe,
     FirstNamePipe,
+    LancRhPipe,
+    AaaammddtoddmmaaaaPipe,
+    UsuarioFormatadoPipe,
     ProgressBarComponent,
     QuestionDialogComponent,
     JustificativaRespexecDialogComponent,
@@ -88,6 +101,13 @@ import { SaldoComponent } from './components/saldo/saldo.component';
     BarraAcoesComponent,
     ApoExecDialogComponent,
     SaldoComponent,
+    SeachDialogComponent,
+    ParametroMod01Component,
+    SeachDialogProjetoComponent,
+    FiltroDatasEspeciaisComponent,
+    DownloadDialogComponent,
+    EmailDialogComponent,
+    FiltroComparativoComponent
   ],
   imports: [
     CommonModule,
@@ -109,11 +129,14 @@ import { SaldoComponent } from './components/saldo/saldo.component';
     SoHorasPipe,
     AtivoPipe,
     CnpjCpfPipe,
+    LancRhPipe,
     SituacaoPadraoPipe,
     FeriadoNivelPipe,
     FeriadoTipoPipe,
     FirstNamePipe,
     CadastroAcoesPipe,
+    UsuarioFormatadoPipe,
+    AaaammddtoddmmaaaaPipe,
     SharedNavegatorComponent,
     CelCalendarComponent,
     CelApontamentosComponent,
@@ -137,6 +160,12 @@ import { SaldoComponent } from './components/saldo/saldo.component';
     CorUltimosProjetosDirective,
     BarraAcoesComponent,
     SaldoComponent,
+    SeachDialogComponent,
+    ParametroMod01Component,
+    FiltroDatasEspeciaisComponent,
+    EmailDialogComponent,
+    EmailDialogComponent,
+    FiltroComparativoComponent
   ],
 })
 export class SharedModule {}

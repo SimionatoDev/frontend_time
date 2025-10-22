@@ -17,6 +17,8 @@
         [ngStyle]="{'color' : opcao==='Execução' ? 'red' : 'white' }" *ngIf="okExecucao()">Auditores</button>
       <button mat-button [matMenuTriggerFor]="gerencial" (click)="setOpcao('Gerencial')"
         [ngStyle]="{'color' : opcao==='Gerencial' ? 'red' : 'white' }" *ngIf="okGerencial()">Gerencial</button>
+      <button mat-button [matMenuTriggerFor]="rh" (click)="setOpcao('R.H.')"
+        [ngStyle]="{'color' : opcao==='rh' ? 'red' : 'white' }" *ngIf="okRH()">R.H.</button>
       <button mat-button [matMenuTriggerFor]="sobre" (click)="setOpcao('Sobre')"
         [ngStyle]="{'color' : opcao==='Sobre' ? 'red' : 'white' }">Sobre</button>
     </span>
@@ -57,11 +59,16 @@
       <mat-menu #execucao="matMenu">
         <button mat-menu-item routerLink="projetos">Contratos</button>
         <button mat-menu-item routerLink="execucao">Apontamentos</button>
+        <button mat-menu-item routerLink="exec_mod02">Apontamentos Modelo 02</button>
         <button mat-menu-item routerLink="agendatrabalhos">Agenda Auditores</button>
         <!--<button mat-menu-item routerLink="extratoaudi">Extrato Auditores</button>-->
       </mat-menu>
       <mat-menu #gerencial="matMenu">
         <!--<button mat-menu-item routerLink="gerencial">Controle Dos Contratos</button>-->
+      </mat-menu>
+      <mat-menu #rh="matMenu">
+        <button mat-menu-item routerLink="uploadfilerh">Importação Arquivo RH</button>
+        <button mat-menu-item routerLink="consultaaponrh">Consulta Apontamentos</button>
       </mat-menu>
       <mat-menu #sobre="matMenu">
         <button mat-menu-item routerLink="sobre">Parâmentos Do Sistema</button>

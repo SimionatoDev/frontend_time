@@ -9,9 +9,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { NgxMaskModule } from 'ngx-mask';
+import { CrudDataEspecialDialogComponent } from './crud-data-especial-dialog/crud-data-especial-dialog.component';
+import { ViewDataEspecialDialogComponent } from './view-data-especial-dialog/view-data-especial-dialog.component';
 
 @NgModule({
-  declarations: [CrudEspecialComponent, EspecialViewComponent],
+  declarations: [CrudEspecialComponent, EspecialViewComponent, CrudDataEspecialDialogComponent, ViewDataEspecialDialogComponent],
   imports: [
     CommonModule,
     DataEspecialRoutingModule,

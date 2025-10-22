@@ -1,0 +1,43 @@
+<div class="div-barra">
+  <span class="example-spacer">Filtro Da Pesquisa</span>
+  <button mat-icon-button aria-label="Example icon-button with share icon " matTooltipPosition="above"
+    (click)="onSaveConfig()" matTooltip="Salvar Parâmetros" matTooltipPosition="above">
+    <mat-icon>brightness_high</mat-icon>
+  </button>
+  <button mat-icon-button aria-label="Example icon-button with share icon " matTooltipPosition="above"
+    (click)="onGetExcelToEmailOrDownLoad('e-mail')" matTooltip="Enviar Consulta Por E-Mail" matTooltipPosition="above" *ngIf="email">
+    <mat-icon>email</mat-icon>
+  </button>
+  <button mat-icon-button aria-label="Example icon-button with share icon " matTooltipPosition="above"
+    (click)="onGetExcelToEmailOrDownLoad('download')" matTooltip="Baixar A Consulta" matTooltipPosition="above" *ngIf="download">
+    <mat-icon>cloud_download</mat-icon>
+  </button>
+  <button mat-icon-button aria-label="Example icon-button with share icon " matTooltipPosition="above"
+  (click)="onHide()" matTooltip="Mostrar/Esconder" matTooltipPosition="above">
+  <mat-icon>remove_red_eye</mat-icon>
+ </button>
+
+</div>
+<form [formGroup]="parametros" autocomplete="off" *ngIf="!hide">
+<div class="col-med-3">
+  <mat-form-field appearance="outline" class="col-max">
+    <mat-label>Data Inicial </mat-label>
+    <input matInput formControlName="apontamento1" mask="00/00/0000" placeholder="dd/mm/aaaa">
+    <mat-error *ngIf="NoValidtouchedOrDirty('apontamento1')">{{getMensafield('apontamento1')}}</mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="col-max">
+      <mat-label>Data Final </mat-label>
+      <input matInput formControlName="apontamento2" mask="00/00/0000" placeholder="dd/mm/aaaa">
+      <mat-error *ngIf="NoValidtouchedOrDirty('apontamento2')">{{getMensafield('apontamento2')}}</mat-error>
+  </mat-form-field>
+  <mat-form-field field appearance="outline" class="col-max">
+    <mat-label>Usuario </mat-label>
+    <mat-select formControlName="id_usuario" (selectionChange)="onChangeParametros()">
+      <mat-option *ngFor="let usuario of usuarios" [value]="usuario.id">
+        {{usuario.razao}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+</form>
+

@@ -1,0 +1,85 @@
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+}
+
+.content-scroll {
+  height: calc(100% - 50px);
+  overflow: auto;
+}
+
+.Browse-Scroll {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate; /* Permite usar border-spacing */
+  border-spacing: 0 0;
+}
+
+
+.Browse-Scroll th, .Browse-Scroll td {
+  text-align: left;
+  box-sizing: border-box; /* Evita "overflow" causado por padding */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.Browse-Scroll th:nth-child(1), .Browse-Scroll td:nth-child(1) {
+  width: 10%; /* Codigo */
+}
+
+.Browse-Scroll th:nth-child(2), .Browse-Scroll td:nth-child(2) {
+  width: 25%; /* CNPJ */
+}
+
+.Browse-Scroll th:nth-child(3), .Browse-Scroll td:nth-child(3) {
+  width: 40%; /* NOME */
+}
+
+.Browse-Scroll th:nth-child(4), .Browse-Scroll td:nth-child(4) {
+  width: 12%; /* BOA */
+}
+
+.Browse-Scroll th:nth-child(5), .Browse-Scroll td:nth-child(5) {
+  width: 12%; /* RUIM */
+}
+
+td {
+  font-size: small;
+  color: blue;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2AA;
+}
+
+tr:hover {
+  background-color: rgb(202, 169, 157);
+}
+
+
+.Browse-Scroll, .Browse-Scroll th, .Browse-Scroll td {
+  box-sizing: border-box;
+}
+
+.Browse-Scroll thead tr {
+  display: table;
+  color: black;
+  background-color: red;
+  width: 100%;
+}
+
+.Browse-Scroll tbody {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.inVisivel {
+  display: none;
+
+}
+

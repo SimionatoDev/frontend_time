@@ -188,6 +188,16 @@ export class GlobalService {
     return false;
   }
 
+  okRH(): boolean {
+    if (
+      this.usuarioService.isDiretoria(this.usuario.grupo) ||
+      this.usuarioService.isTi(this.usuario.grupo)
+    )
+      return true;
+
+    return false;
+  }
+
   okDirAdm(): boolean {
     if (
       this.usuarioService.isDiretoria(this.usuario.grupo) ||

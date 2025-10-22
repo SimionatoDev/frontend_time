@@ -1,3 +1,4 @@
+import { RhFileModule } from './modules/rh-file/rh-file.module';
 import { TicketModule } from './modules/ticket/ticket.module';
 import { HorasControlExecModule } from './modules/horas-control-exec/horas-control-exec.module';
 import { DiganaoGuard } from './guards/diganao.guard';
@@ -117,6 +118,13 @@ const routes: Routes = [
     canActivate: [DiganaoGuard],
   },
   {
+    path: 'exec_mod02',
+    loadChildren: () =>
+      import('./modules/lanc-mod02/lanc-mod02.module').then(
+        (m) => m.LancMod02Module
+      )
+  },
+  {
     path: 'execucao',
     loadChildren: () =>
       import('./modules/execucao-v2/execucao-v2.module').then(
@@ -169,6 +177,22 @@ const routes: Routes = [
         (m) => m.ClienteTabelaModule
       ),
     canActivate: [DiganaoGuard],
+  },
+  {
+    path: 'uploadfilerh',
+    loadChildren: () =>
+      import('./modules/rh-file/rh-file.module').then(
+        (m) => m.RhFileModule
+      ),
+    canActivate: [],
+  },
+  {
+    path: 'consultaaponrh',
+    loadChildren: () =>
+      import('./modules/rh-consulta/rh-consulta.module').then(
+        (m) => m.RhConsultaModule
+      ),
+    canActivate: [],
   },
   {
     path: 'clientes-scroll',
