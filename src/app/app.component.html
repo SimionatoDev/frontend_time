@@ -4,7 +4,7 @@
       (click)="setOpcao('')">
       <mat-icon>menu</mat-icon>
     </button>
-    <span>Simionato Auditores V 01.01</span>
+    <span>Simionato Auditores V 01.02</span>
     <span *ngIf="showMenu">
       <button mat-button [matMenuTriggerFor]="cadastros" (click)="setOpcao('Cadastros')"
         [ngStyle]="{'color' : opcao==='Cadastros' ? 'red' : 'white' }" *ngIf="okCadastros()">Cadastros</button>
